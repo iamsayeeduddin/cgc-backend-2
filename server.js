@@ -1,12 +1,7 @@
-const http = require("http");
+const express = require("express");
 
-const reqHandler = (req, res) => {
-  console.log("Req Reached the server.");
-  console.log(req.url, req.method);
-  console.log(req);
-  res.end("Welcome to Node JS!");
-};
+const app = express();
 
-const server = http.createServer(reqHandler);
+app.listen(5000, () => console.log("Server is Up & Running!"));
 
-server.listen(5000);
+// HTTP RESPONSE STATUS CODE
