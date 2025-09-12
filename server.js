@@ -1,33 +1,15 @@
 const express = require("express");
+const bookRouter = require("./router/bookRouter");
 
 const app = express();
 
 app.listen(5000, () => console.log("Server is Up & Running!"));
 
-app.post("/books", (req, res) => {
-  res.status(200);
-  res.json(books);
-});
+app.use("/books", bookRouter);
 
-app.use("/", (req, res) => {
-  res.status(200);
-  res.send("Welcome to Express JS");
-});
-
-let books = [
-  {
-    id: 1,
-    name: "HTML & CSS",
-    price: 250,
-  },
-  {
-    id: 2,
-    name: "JavaScript",
-    price: 400,
-  },
-  {
-    id: 3,
-    name: "Backend with Node & Express JS",
-    price: 600,
-  },
-];
+// NGINX - api.cgc.in -> localhost:5000
+// cgc.in -> localhost:4173
+// Cloudflare
+// api.cgc.in/
+// Layered Architecture System
+// App -> Router -> Controller -> Models (DB Queries)
