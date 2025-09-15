@@ -5,6 +5,8 @@ const app = express();
 
 app.listen(5000, () => console.log("Server is Up & Running!"));
 
+app.use(express.json());
+
 app.use("/books", bookRouter);
 
 // NGINX - api.cgc.in -> localhost:5000
