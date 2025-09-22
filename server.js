@@ -2,13 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bookRouter = require("./router/bookRouter");
 const productRouter = require("./router/productRouter");
+const userRouter = require("./router/userRouter");
 
 const app = express();
 
 app.listen(5000, () => console.log("Server is Up & Running!"));
 
 mongoose
-  .connect("mongodb://localhost:27017/cgc2")
+  .connect("mongodb://localhost:27017/cgc2", { autoIndex: true })
   .then(() => console.log("COnnected to the DB Successfully!"))
   .catch((err) => console.log(err));
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use("/products", productRouter);
 app.use("/books", bookRouter);
+app.use("/users", userRouter);
 
 // NGINX - api.cgc.in -> localhost:5000
 // cgc.in -> localhost:4173
