@@ -15,8 +15,26 @@ const getPaginatedProducts = async (req, res) => {
     const page = +req.params.page;
     const pageSize = +req.params.pageSize;
     const skip = (page - 1) * pageSize;
-    const products = await ProductModel.find().skip(skip).limit(pageSize);
-    const totalRecords = await ProductModel.countDocuments();
+    const sort = req.query.sort;
+    const dir = req.query.dir;
+    const search = req.query.search;
+    const isActive = Boolean(req.query.isActive);
+
+    let sortObj = {}; // Object to be passed for sorting of Data
+    if (sort && dir) {
+      sortObj[sort] = dir;
+    }
+
+    let filter = {}; // Object to be passed to search / filter a product/s
+    if (search) {
+      filter = {
+        $and: [{ $or: [{ name: { $regex: search, $options: "i" } }, { category: { $regex: search, $options: "i" } }] }, { inStock: isActive }],
+      };
+    }
+
+    const products = await ProductModel.find(filter).sort(sortObj).skip(skip).limit(pageSize);
+    const totalRecords = await ProductModel.countDocuments(filter);
+
     let response = {
       metadata: {
         page,
@@ -80,3 +98,5 @@ module.exports = { getProducts, addProduct, deleteProduct, getPaginatedProducts,
 
 // USERS
 // fullName, email, password, role - Number
+// SORTING
+// FILTERING OR SEARCHING
