@@ -15,5 +15,8 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-userSchema.index("email", { unique: true });
-module.exports = mongoose.model("users", userSchema);
+const User = mongoose.model("users", userSchema);
+
+User.createIndexes({ email: 1 });
+
+module.exports = User;

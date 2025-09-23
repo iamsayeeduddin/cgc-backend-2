@@ -9,8 +9,8 @@ const app = express();
 app.listen(5000, () => console.log("Server is Up & Running!"));
 
 mongoose
-  .connect("mongodb://localhost:27017/cgc2", { autoIndex: true })
-  .then(() => console.log("COnnected to the DB Successfully!"))
+  .connect(process.env.MONGODB_URL, { autoIndex: true })
+  .then(() => console.log("Connected to the DB Successfully!"))
   .catch((err) => console.log(err));
 
 app.use(express.json());

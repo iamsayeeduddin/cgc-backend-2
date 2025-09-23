@@ -1,5 +1,5 @@
 const User = require("../models/userModel");
-const { hashing } = require("../utils/crypt");
+const { hashing, compareHash } = require("../utils/crypt");
 
 const createUser = async (req, res) => {
   try {
@@ -66,7 +66,42 @@ const verifyEmail = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email }).lean();
+    if (user) {
+      if (user?.isActive & user?.isEmailVerified) {
+        const isValidPassword = await compareHash(password, user?.password);
+        if (isValidPassword) {
+          res.status(200).json({
+            success: true,
+            message: "Login Succesfull!",
+            data: {
+              _id: user?._id,
+              name: user?.fullName,
+              phone: user?.phone,
+              countryCode: user?.countryCode,
+              email: user?.email,
+            },
+          });
+        } else {
+          res.status(400).json({ success: false, message: "Invalid Email/Password!" });
+        }
+      } else {
+        res?.status(400).json({
+          success: false,
+          message: user?.isEmailVerified && !user?.isActive ? "User is Disabled. Please contact admin!" : "Please verify email.",
+        });
+      }
+    } else {
+      res.status(400).json({ success: false, message: "Invalid Email/Password!" });
+    }
+  } catch (err) {}
+};
+
 module.exports = {
+  login,
   createUser,
   getUsers,
   getUserById,
