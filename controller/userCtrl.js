@@ -1,5 +1,5 @@
 const User = require("../models/userModel");
-const { hashing, compareHash } = require("../utils/crypt");
+const { hashing, compareHash, generateToken } = require("../utils/crypt");
 
 const createUser = async (req, res) => {
   try {
@@ -74,6 +74,7 @@ const login = async (req, res) => {
       if (user?.isActive & user?.isEmailVerified) {
         const isValidPassword = await compareHash(password, user?.password);
         if (isValidPassword) {
+          const token = generateToken({ _id: user?._id, name: user?.fullName, email: user?.email, role: user?.role });
           res.status(200).json({
             success: true,
             message: "Login Succesfull!",
@@ -83,6 +84,7 @@ const login = async (req, res) => {
               phone: user?.phone,
               countryCode: user?.countryCode,
               email: user?.email,
+              token,
             },
           });
         } else {
