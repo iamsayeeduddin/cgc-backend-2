@@ -4,6 +4,7 @@ const bookRouter = require("./router/bookRouter");
 const productRouter = require("./router/productRouter");
 const userRouter = require("./router/userRouter");
 const { verifyToken } = require("./utils/crypt");
+const { auth } = require("./middleware/auth");
 
 const app = express();
 
@@ -16,24 +17,7 @@ mongoose
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-  try {
-    if (req.url.includes("login")) {
-      next();
-    } else if (req.headers.authorization) {
-      console.log(req.headers.authorization?.split(" "));
-      const token = req.headers.authorization?.split(" ")[1];
-      const validToken = verifyToken(token);
-      if (validToken) {
-        next();
-      }
-    } else res.status(401).json({ success: false, message: "Unauthorized" });
-  } catch (error) {
-    res.status(401).json({ success: false, message: "Token Expired" });
-  }
-});
-
-app.use("/products", productRouter);
+app.use("/products", auth, productRouter);
 app.use("/books", bookRouter);
 app.use("/users", userRouter);
 
