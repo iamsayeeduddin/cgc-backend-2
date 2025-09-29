@@ -1,0 +1,6 @@
+::ffff:127.0.0.1 - - [29/Sep/2025:02:32:42 +0000] "GET /products/allProducts HTTP/1.1" 401 42 "-" "Thunder Client (https://www.thunderclient.com)"
+::ffff:127.0.0.1 - - [29/Sep/2025:02:32:58 +0000] "GET /products/allProducts HTTP/1.1" 401 43 "-" "Thunder Client (https://www.thunderclient.com)"
+[0mPOST /api/v1/products/page/1/pageSize/3?sort=price&dir=asc [33m404[0m 3.574 ms - 173[0m
+POST /api/v1/products/page/1/pageSize/3?sort=price&dir=asc 404 173 - 3.062 ms
+GET /products/allProducts 401 43 - 23.370 ms
+GET /products/allProducts 401 43 - 34.257 ms
