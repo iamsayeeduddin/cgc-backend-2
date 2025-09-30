@@ -4,3 +4,9 @@
 POST /api/v1/products/page/1/pageSize/3?sort=price&dir=asc 404 173 - 3.062 ms
 GET /products/allProducts 401 43 - 23.370 ms
 GET /products/allProducts 401 43 - 34.257 ms
+POST /users/createUser 400 68 - 3.516 ms
+POST /users/createUser 201 401 - 113.094 ms
+POST /users/createUser 500 260 - 24696.680 ms
+POST /users/createUser 201 452 - 3378.618 ms
+GET /files/1759198889492-Sayeed_DP.jpeg 200 135639 - 19.244 ms
+GET /favicon.ico 404 150 - 3.488 ms

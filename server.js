@@ -25,10 +25,17 @@ if (!fs.existsSync(logsDir)) {
   fs.mkdirSync(logsDir);
 }
 
+const uploadsDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
+
 const reqLogFilePath = path.join(__dirname, "logs", "request.log");
 const reqLogStream = fs.createWriteStream(reqLogFilePath, { flags: "a" });
 
 app.use(morgan("tiny", { stream: reqLogStream }));
+
+app.use("/files", express.static(path.join(__dirname, "uploads")));
 
 app.use("/products", auth, productRouter);
 app.use("/books", bookRouter);
