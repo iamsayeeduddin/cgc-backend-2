@@ -4,12 +4,15 @@ const bookRouter = require("./router/bookRouter");
 const productRouter = require("./router/productRouter");
 const userRouter = require("./router/userRouter");
 const { auth } = require("./middleware/auth");
+const cors = require("cors");
 
 const fs = require("fs");
 const path = require("path");
 const morgan = require("morgan");
 
 const app = express();
+
+app.use(cors());
 
 app.listen(5000, () => console.log("Server is Up & Running!"));
 
@@ -37,7 +40,7 @@ app.use(morgan("tiny", { stream: reqLogStream }));
 
 app.use("/files", express.static(path.join(__dirname, "uploads")));
 
-app.use("/products", auth, productRouter);
+app.use("/products", productRouter);
 app.use("/books", bookRouter);
 app.use("/users", userRouter);
 

@@ -10,6 +10,14 @@ const getProducts = async (req, res) => {
   }
 };
 
+const getProductById = async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    const prd = await ProductModel.findOne({ _id: productId }).lean();
+    res.status(200).json(prd);
+  } catch (error) {}
+};
+
 const getPaginatedProducts = async (req, res) => {
   try {
     const page = +req.params.page;
@@ -88,7 +96,7 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-module.exports = { getProducts, addProduct, deleteProduct, getPaginatedProducts, updateProduct };
+module.exports = { getProductById, getProducts, addProduct, deleteProduct, getPaginatedProducts, updateProduct };
 
 // PAGINATION
 // 100 - 10 - 10
